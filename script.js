@@ -30,18 +30,16 @@ function handleFileSelection(event) {
   if (!file) {
     showMessage("No file selected. Please choose a file.", "error");
     return;
-  }
-
+  };
   if (!file.type.startsWith("text")) {
     showMessage("Unsupported file type. Please select a text file.", "error");
     return;
-  }
+  };
 
   // Read the file
   const reader = new FileReader();
   reader.onload = () => {
     mapText(reader.result);
-    // fileContentDisplay.textContent = reader.result;
   };
   reader.onerror = () => {
     showMessage("Error reading the file. Please try again.", "error");
@@ -65,23 +63,22 @@ function displayNextCard() {
     counter = counter + 1;
     termSideDisplayed = true;
     displayCard();
-  }
-}
+  };
+};
 
 function displayPreviousCard() {
   if (counter > 0) {
     counter = counter - 1;
     termSideDisplayed = true;
     displayCard()
-  }
-  
-}
+  };
+};
 
 // Displays a message to the user
 function showMessage(message, type) {
   messageDisplay.textContent = message;
   messageDisplay.style.color = type === "error" ? "red" : "green";
-}
+};
 
 // Convert text file to js Map
 function mapText(content) {
@@ -97,10 +94,10 @@ function mapText(content) {
             let def = terms[1].trim();
             map.set(term, def);
             termsArray.push(map);
-        }
+        };
     });
     displayCard();
-}
+};
 
 function displayCard() {
     const iterator = termsArray[counter].entries();
@@ -112,7 +109,7 @@ function displayCard() {
       textField.textContent = currentTerm;
     } else {
       textField.textContent = currentDefinition;
-    }
+    };
     displayCounter();
 };
 
@@ -121,12 +118,12 @@ function shuffleDeck() {
   counter = 0;
   termSideDisplayed = true;
   displayCard();
-}
+};
 
 function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
-}
+};
 
 function displayCounter() {
   counterDisplay.textContent = `${counter + 1} / ${termsArray.length}`
-}
+};
