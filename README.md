@@ -11,6 +11,7 @@ Use the terminal to clone this repository:
 ```bash
 git clone https://github.com/technikka/FlashCards.git
 ```
+Then open the index.html file in your browser to use this app locally.
 
 ## Usage
 
