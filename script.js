@@ -9,9 +9,9 @@ const shuffleButton = document.getElementById("shuffle-button");
 
 // index of term currently displayed.
 let counter = 0;
-let termSideDisplayed = true;
 let termsArray = [];
-let shuffledTermsArray = null;
+let shuffledTermsArray = [];
+let termSideDisplayed = true;
 
 fileInput.addEventListener("change", handleFileSelection);
 flashCard.addEventListener("click", handleCardClick);
@@ -19,20 +19,40 @@ nextButton.addEventListener("click", displayNextCard);
 previousButton.addEventListener("click", displayPreviousCard);
 shuffleButton.addEventListener("click", shuffleDeck);
 
-function handleFileSelection(event) {
-  const file = event.target.files[0];
+function resetValues() {
   messageDisplay.textContent = "";
   termsArray = [];
   counter = 0;
   termSideDisplayed = true;
+}
 
-  // Validate file existence and type
-  if (!file) {
-    showMessage("No file selected. Please choose a file.", "error");
-    return;
-  };
+// Map text to key/value pairs and display first term.
+function mapText(content) {
+    // break text into lines
+    const lines = content.split(/\r\n|\n|\r/); 
+
+    lines.forEach((line, index) => {
+        // break lines into key/value pairs
+        const terms = line.split(/:/);
+        pair = new Map ();
+        if (terms.length == 2) {
+            let term = terms[0].trim();
+            let def = terms[1].trim();
+            pair.set(term, def);
+            termsArray.push(pair);
+        };
+    });
+    displayCard();
+};
+
+function handleFileSelection(event) {
+  const file = event.target.files[0];
+  resetValues();
+
+  // Validate file type
   if (!file.type.startsWith("text")) {
-    showMessage("Unsupported file type. Please select a text file.", "error");
+    messageDisplay.textContent = "Unsupported file type. Please select a text file.";
+    messageDisplay.style.color =  "red";
     return;
   };
 
@@ -47,6 +67,7 @@ function handleFileSelection(event) {
   reader.readAsText(file);
 }
 
+// Switch between term and definition being displayed.
 function handleCardClick() {
   if (termsArray.length > 0) {
     if (termSideDisplayed == true) {
@@ -72,31 +93,6 @@ function displayPreviousCard() {
     termSideDisplayed = true;
     displayCard()
   };
-};
-
-// Displays a message to the user
-function showMessage(message, type) {
-  messageDisplay.textContent = message;
-  messageDisplay.style.color = type === "error" ? "red" : "green";
-};
-
-// Convert text file to js Map
-function mapText(content) {
-    const lines = content.split(/\r\n|\n|\r/); 
-        
-    // Process each line
-    lines.forEach((line, index) => {
-        // break lines into key/value pairs
-        const terms = line.split(/:/);
-        map = new Map ();
-        if (terms.length == 2) {
-            let term = terms[0].trim();
-            let def = terms[1].trim();
-            map.set(term, def);
-            termsArray.push(map);
-        };
-    });
-    displayCard();
 };
 
 function displayCard() {

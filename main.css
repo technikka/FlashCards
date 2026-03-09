@@ -23,7 +23,6 @@ input {
 
 .content-card {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    background-color: #f9fdfd;
     border-radius: 10px;
     width: 600px;
     height: 100px;
@@ -31,7 +30,7 @@ input {
     justify-content: center;
     align-items: center;
     padding: 30px;
-    margin: 30px;
+    margin: 30px 0 15px 0;
 }
 
 .content-card:hover {
